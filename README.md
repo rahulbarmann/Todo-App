@@ -3,7 +3,7 @@
 
 It is a simple To-do Application which lets users to **signup** and allows them to **create**, **edit**, **delete** their to-dos.
 
-It is a **Full-Stack application**, with using **React** as the frontend framework, **Express** for the http server and **MongoDB** for the database
+It is a **Full-Stack application**, with using **React** as the frontend framework, **Express** as the http server and **MongoDB** as the database
 
 ## Prerequisites
 
