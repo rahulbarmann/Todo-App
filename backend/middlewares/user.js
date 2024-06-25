@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken")
 require("dotenv").config({path: "../.env"})
 const { User } = require("../db/index.js")
+const { userSchema, todoSchema } = require("../zod/types.js")
 
 const JWT_SECRET = process.env.JWT_SECRET
 
@@ -42,4 +43,31 @@ async function userSignin(req, res, next) {
 
 }
 
-module.exports = { userAuthMiddleware, userSignin, userSignup }
+// Input Validation Middlewares 
+
+function userSchemaValidation(req, res, next) {
+    
+    const { username, password } = req.body;
+    const response = userSchema.safeParse({
+        username, password
+    })
+
+    response.success ? next() : res.json({
+        "msg": "Wrong Inputs"
+    })
+
+}
+
+function todoSchemaValidation(req, res, next) {
+    
+    const { title, description, completed } = req.body;
+    const response = todoSchema.safeParse({
+        title, description, completed
+    })
+    
+    response.success ? next() : res.json({
+        "msg": "Wrong Inputs"
+    })
+    
+}
+module.exports = { userAuthMiddleware, userSignin, userSignup, userSchemaValidation, todoSchemaValidation }

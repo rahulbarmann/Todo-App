@@ -2,14 +2,15 @@ const { Router } = require("express")
 const router =  Router()
 const mongoose = require("mongoose")
 const { User, Todos } = require("../db/index.js")
-const { userSignin, userSignup, userAuthMiddleware } = require("../middlewares/user.js")
+const { userSignin, userSignup, userAuthMiddleware, userSchemaValidation,
+    todoSchemaValidation} = require("../middlewares/user.js")
 const jwt = require("jsonwebtoken")
 require("dotenv").config({path: "../.env"})
 
 const JWT_SECRET = process.env.JWT_SECRET
 const { ObjectId } = mongoose.Types; 
 
-router.post("/signup", userSignup, async (req, res) => {
+router.post("/signup", userSchemaValidation, userSignup, async (req, res) => {
 
     const username = req.body.username
     const password = req.body.password
@@ -28,7 +29,7 @@ router.post("/signup", userSignup, async (req, res) => {
 
 })
 
-router.post("/signin", userSignin, (req, res) => {
+router.post("/signin", userSchemaValidation, userSignin, (req, res) => {
 
     const username = req.body.username
     const token = jwt.sign({username}, JWT_SECRET)
@@ -53,7 +54,7 @@ router.get("/todos", async (req, res) => {
 
 })
 
-router.post("/todos", async (req, res) => {
+router.post("/todos", todoSchemaValidation, async (req, res) => {
     
     const { title, description, completed } = req.body;
     const username = req.headers.username
@@ -77,7 +78,7 @@ router.post("/todos", async (req, res) => {
 
 })
 
-router.put("/todos/:todoId", async (req, res) => {
+router.put("/todos/:todoId", todoSchemaValidation, async (req, res) => {
     
     const todoId = req.params.todoId
     const { title, description, completed } = req.body;
