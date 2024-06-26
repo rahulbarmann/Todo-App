@@ -56,7 +56,7 @@ router.get("/todos", async (req, res) => {
 
 router.post("/todos", todoSchemaValidation, async (req, res) => {
     
-    const { title, description, completed } = req.body;
+    const { title, description } = req.body;
     const username = req.headers.username
 
     const response = await User.findOne({username})
@@ -68,7 +68,7 @@ router.post("/todos", todoSchemaValidation, async (req, res) => {
             _id: newTodoId,
             title,
             description,
-            completed
+            completed: false
         }}}
     )
 
@@ -81,7 +81,7 @@ router.post("/todos", todoSchemaValidation, async (req, res) => {
 router.put("/todos/:todoId", todoSchemaValidation, async (req, res) => {
     
     const todoId = req.params.todoId
-    const { title, description, completed } = req.body;
+    const { title, description } = req.body;
     const username = req.headers.username
     const response = await User.findOne({username})
     
@@ -91,7 +91,7 @@ router.put("/todos/:todoId", todoSchemaValidation, async (req, res) => {
             _id: todoId,
             title,
             description,
-            completed
+            completed: false
         } } }
     );
 

@@ -60,9 +60,9 @@ function userSchemaValidation(req, res, next) {
 
 function todoSchemaValidation(req, res, next) {
     
-    const { title, description, completed } = req.body;
+    const { title, description } = req.body;
     const response = todoSchema.safeParse({
-        title, description, completed
+        title, description
     })
     
     response.success ? next() : res.json({
